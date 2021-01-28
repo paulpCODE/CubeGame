@@ -42,6 +42,8 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
     private float dashTime; // if <=0 dashTime = startDashTime
     [SerializeField] private float totalDashTime; // отнимаем от него  
     private Vector2 previousVelocity;
+    private CinemachineBasicMultiChannelPerlin vCameraShaker;
+    [SerializeField]private float cameraShake;
 
 
     private Rigidbody2D rb;
@@ -95,6 +97,8 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
     void Awake()
     {
         vCamera = CinemachineCamera.GetComponent<CinemachineVirtualCamera>();
+        vCameraShaker = vCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
         rb = gameObject.GetComponent<Rigidbody2D>();
         boxCollider = gameObject.GetComponent<BoxCollider2D>();
         dashTime = totalDashTime;
@@ -208,10 +212,9 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
             previousVelocity = rb.velocity;
 
 
-            // #critical camera 
-            // dead zone width ONLY = 2, height = 0 ; lookaheadTime = 0, lookaheadSmooth = 0;
-            vCamera.m_Lens.OrthographicSize -= cameraAnimationMotion;
+            
             // #critical player scale 
+            vCameraShaker.m_AmplitudeGain = cameraShake;
             var playerScale = gameObject.transform.localScale;
             playerScale = new Vector3(playerScale.x + scaleDifference, playerScale.y - scaleDifference, 0);
             gameObject.transform.localScale = playerScale;
@@ -227,12 +230,10 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
         // if dash finished 
         if(dashTime<=0)
         {
-
-
-            //#critical camera
             // restore values
-            vCamera.m_Lens.OrthographicSize += cameraAnimationMotion;
             // #critical player scale 
+            vCameraShaker.m_AmplitudeGain = 0;
+
 
             var playerScale = gameObject.transform.localScale;
             playerScale = new Vector3(playerScale.x - scaleDifference, playerScale.y + scaleDifference, 0);
