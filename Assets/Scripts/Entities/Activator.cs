@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Activator : MonoBehaviour
 {
-    public static Activator instance;
+    private static Activator instance;
 
     private void Awake()
     {
