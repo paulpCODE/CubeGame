@@ -1265,6 +1265,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: step
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: toPosition.x
+      value: 4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: toPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: activateByPlayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: moveToPosition.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -861969180344168833, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
+      propertyPath: moveToPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2271248012275189279, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
         type: 3}
       propertyPath: m_RootOrder

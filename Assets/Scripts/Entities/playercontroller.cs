@@ -6,10 +6,6 @@ using Cinemachine;
 
 public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
 {
-    [SerializeField] GameObject CinemachineCamera;
-    CinemachineVirtualCamera vCamera;
-
-
     [Header("Moving")]
     [SerializeField] float speed;
     [SerializeField] float jumpHeight;
@@ -19,47 +15,49 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
     [Tooltip("cooldown in seconds")]
     [SerializeField] float dashCoolDown;
     [SerializeField] float dashSpeed;
-    private float cameraAnimationMotion = 0.5f;
-    private bool canDash;
-    public bool CanDash
-    {
-        get
-        {
-            return canDash;
-        }
-        set
-        {
-            // отправить сигнал, что поменялось значение onCanDashChanged
-            if (OnCanDashChanged!=null)
-                OnCanDashChanged(value,dashCoolDown);
+    [SerializeField] private float totalDashTime; // отнимаем от него
 
-            canDash = value;
-        }
-    }
+    [Space]
+    [Header("Cinemamachine")]
+    [SerializeField] GameObject CinemachineCamera;
+    [SerializeField] private float cameraShake;
+
+
+    #region Actions
     public static Action<bool, float> OnCanDashChanged;
-    
+    public static Action<sbyte> OnAxisChanged;
+    #endregion
+
+
+    #region Private Variables
+
+    #region Cinemamachine
+    private CinemachineVirtualCamera vCamera;
+    private CinemachineBasicMultiChannelPerlin vCameraShaker;
+    //private float cameraAnimationMotion = 0.5f;
+    #endregion
+
+
+    #region Dash
+    private bool canDash;
     private bool isDashInProcess = false;
     private float dashTime; // if <=0 dashTime = startDashTime
-    [SerializeField] private float totalDashTime; // отнимаем от него  
-    private Vector2 previousVelocity;
-    private CinemachineBasicMultiChannelPerlin vCameraShaker;
-    [SerializeField]private float cameraShake;
+    #endregion
 
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
+
     private Vector2 axis;
-    private sbyte lookDirection; // 1 - right, (-1) - left   
-    public void setLookDirection(sbyte newLookdirection)
-    {
-        lookDirection = newLookdirection;
-    }
-
     private Vector3 startPosition;
+    private Vector2 previousVelocity;
+
+    private sbyte lookDirection; // 1 - right, (-1) - left
+
     private bool isDoubleJumpBoostActive = false;
+    #endregion
 
-
-    #region Get Set Axis
+    #region Get Set
     /// <summary>
     /// variable to store player input 
     /// </summary>
@@ -87,13 +85,26 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
             axis = value;
         }
     }
-    public static Action<sbyte> OnAxisChanged;
+    public bool CanDash
+    {
+        get
+        {
+            return canDash;
+        }
+        set
+        {
+            // отправить сигнал, что поменялось значение onCanDashChanged
+            if (OnCanDashChanged != null)
+                OnCanDashChanged(value, dashCoolDown);
+
+            canDash = value;
+        }
+    }
     #endregion
 
 
 
     #region MonobehaviourCallbacks
-
     void Awake()
     {
         vCamera = CinemachineCamera.GetComponent<CinemachineVirtualCamera>();
@@ -131,14 +142,10 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
 
     }
 
-  
-
     #endregion
 
 
-
     #region Private Methods
-
     private void Input()
     {
         if (!isDashInProcess)
@@ -157,6 +164,20 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
         
     }
 
+    private int ReturnGravityDirection()
+    {
+        if (rb.gravityScale < 0)
+            return -1;
+        return 1;
+    }
+
+    private void setLookDirection(sbyte newLookdirection)
+    {
+        lookDirection = newLookdirection;
+    }
+
+
+    #region Jump
     private void Jump()
     {
         Debug.Log("jump!");
@@ -186,13 +207,8 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
 
         return false;
     }
+    #endregion
 
-    private int ReturnGravityDirection()
-    {
-        if (rb.gravityScale < 0)
-            return -1;
-        return 1;
-    }
 
     #region Dash
     /// <summary>
@@ -246,7 +262,6 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
         }
     }
 
-    #region Dash Coroutines
     void ReloadDash(bool newValue, float coolDownTime)
     {
         // c true na false отправляю на перезарядку 
@@ -260,10 +275,6 @@ public class playercontroller : MonoBehaviour, IGravityChangeable, IDestroyable
         CanDash = true;
     }
     #endregion
-
-    #endregion
-
-
     #endregion
 
 
