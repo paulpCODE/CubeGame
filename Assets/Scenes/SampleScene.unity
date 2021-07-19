@@ -1352,6 +1352,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8360105301933925972, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8360105301933925972, guid: 7a98ad36b6074490e92ee0cbffd87ed9,
+        type: 3}
       propertyPath: m_Name
       value: MoveblePlatform
       objectReference: {fileID: 0}
