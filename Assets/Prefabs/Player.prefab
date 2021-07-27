@@ -640,6 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashProgressBar: {fileID: 0}
+  parentTarget: {fileID: 0}
 --- !u!1 &1871377027
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,8 +817,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a1a53e5cac98a45778e81923e759dd20, type: 3}
-  m_Color: {r: 0.8679245, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 438817e47ed264b348bca08eba9f56d6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -890,5 +891,6 @@ MonoBehaviour:
   jumpHeight: 19
   dashCoolDown: 5
   dashSpeed: 20
-  canDash: 1
   totalDashTime: 0.1
+  CinemachineCamera: {fileID: 0}
+  cameraShake: 0
